@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>复古音乐库 | 私密收听站</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .audio-item {
+      transition: all 0.2s ease;
+      border-left: 3px solid transparent;
+    }
+    .audio-item:hover {
+      background-color: #f8fafc;
+      border-left-color: #3b82f6;
+      transform: translateX(2px);
+    }
+    audio::-webkit-media-controls-panel {
+      background-color: #eff6ff;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen p-4 md:p-8">
+  <div class="max-w-3xl mx-auto">
+    <header class="text-center mb-8">
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">复古音乐库</h1>
+      <p class="text-gray-500">珍藏时光里的旋律 · 无需授权 直接收听</p>
+    </header>
+
+    <!-- 搜索栏 + 上传跳转按钮 -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-6 flex flex-col md:flex-row gap-3">
+      <div class="relative flex-1">
+        <input 
+          type="text" 
+          id="searchInput" 
+          placeholder="搜索音乐标题..." 
+          class="w-full px-4 py-2 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 focus:border-transparent pl-10"
+        >
+        <svg class="w-5 h-5 text-gray-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+        </svg>
+      </div>
+      <button onclick="goToUpload()" class="bg-blue-500 text-white px-5 py-2 rounded-lg hover:bg-blue-600 transition flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+        </svg>
+        上传音乐
+      </button>
+    </div>
+
+    <!-- 音乐列表容器 -->
+    <div id="musicList" class="bg-white rounded-lg shadow-sm p-4 md:p-6 min-h-[400px]">
+      <div class="flex items-center justify-center h-full text-gray-500">
+        <svg class="w-8 h-8 mr-3 animate-spin text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"></path>
+        </svg>
+        <p>加载音乐列表中...</p>
+      </div>
+    </div>
+
+    <footer class="text-center mt-8 text-gray-400 text-sm">
+      <p>© 2025 复古音乐库 · 基于 GitHub Pages 构建</p>
+    </footer>
+  </div>
+
+  <script>
+    // 管理员配置区（替换为自己的签名链接）
+    const ADMIN_CONFIG = {
+      owner: "25eqsg3f08-stack",
+      repo: "private-music-repo",
+      dir: "music",
+      branch: "main",
+      // 管理员生成的只读 Token（前端隐藏，实际部署建议用短链或后端代理）
+      readonlyToken: "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" // 替换为你的只读 Token
+    };
+
+    // 存储原始音乐列表
+    let originalMusicList = [];
+
+    // 跳转到上传页面
+    function goToUpload() {
+      window.location.href = "upload.html";
+    }
+
+    // 加载音乐列表（管理员 Token 内置，用户无感知）
+    async function loadMusicList() {
+      const listEl = document.getElementById("musicList");
+      try {
+        const apiUrl = `https://api.github.com/repos/${ADMIN_CONFIG.owner}/${ADMIN_CONFIG.repo}/contents/${ADMIN_CONFIG.dir}?ref=${ADMIN_CONFIG.branch}`;
+        const response = await fetch(apiUrl, {
+          headers: {
+            "Authorization": `token ${ADMIN_CONFIG.readonlyToken}`,
+            "Accept": "application/vnd.github.v3+json"
+          }
+        });
+
+        if (!response.ok) throw new Error("音乐列表加载失败，请联系管理员");
+
+        const files = await response.json();
+        originalMusicList = files.filter(f => 
+          f.type === "file" && (f.name.endsWith(".mp3") || f.name.endsWith(".wav"))
+        );
+
+        renderMusicList(originalMusicList);
+      } catch (error) {
+        listEl.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-red-500">
+            <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+            <p>${error.message}</p>
+          </div>
+        `;
+      }
+    }
+
+    // 渲染音乐列表（音频链接自动携带 Token）
+    function renderMusicList(list) {
+      const listEl = document.getElementById("musicList");
+      if (list.length === 0) {
+        listEl.innerHTML = `
+          <div class="flex flex-col items-center justify-center h-full text-gray-500">
+            <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-2v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-2c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-2"></path>
+            </svg>
+            <p>暂无音乐文件</p>
+          </div>
+        `;
+        return;
+      }
+
+      listEl.innerHTML = list.map(file => {
+        const showTitle = file.name.replace(/^\d+-[^-]+-/, "").split(".").slice(0, -1).join(".");
+        // 音频链接携带 Token 实现私密播放
+        const playableUrl = `${file.download_url}?access_token=${ADMIN_CONFIG.readonlyToken}`;
+        return `
+          <div class="audio-item p-3 rounded mb-3">
+            <p class="font-medium text-gray-700 truncate" title="${showTitle}">${showTitle}</p>
+            <audio controls class="w-full mt-2 rounded-lg" crossorigin="anonymous">
+              <source src="${playableUrl}" type="audio/mpeg">
+              你的浏览器不支持音频播放
+            
+          </div>
+        `;
+      }).join("");
+    }
+
+    // 搜索功能
+    function searchMusic() {
+      const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+      if (!keyword) {
+        renderMusicList(originalMusicList);
+        return;
+      }
+      const filteredList = originalMusicList.filter(file => {
+        const title = file.name.replace(/^\d+-[^-]+-/, "").split(".").slice(0, -1).join(".").toLowerCase();
+        return title.includes(keyword);
+      });
+      renderMusicList(filteredList);
+    }
+
+    // 页面加载自动加载列表
+    window.onload = () => {
+      loadMusicList();
+      document.getElementById("searchInput").addEventListener("input", searchMusic);
+    };
+  </script>
+</body>
+</html>
