@@ -34,7 +34,7 @@ async function initMusicList() {
         const parser = new DOMParser();
         const doc = parser.parseFromString(html, "text/html");
         // 筛选mp3和wmv音频文件
-        const links = doc.querySelectorAll("a[href$='.mp3'], a[href$='.wmv']"); 
+        const links = doc.querySelectorAll("a[href$='.mp3'], a[href$='.wav']"); 
 
         // 提取歌曲信息（URL + 去除后缀的歌名）
         musicList = Array.from(links).map(link => {
