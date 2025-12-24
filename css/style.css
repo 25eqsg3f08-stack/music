@@ -1,0 +1,161 @@
+/* 全局样式重置 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1);
+    padding: 30px;
+}
+
+h1 {
+    text-align: center;
+    color: #2c3e50;
+    margin-bottom: 30px;
+    font-weight: 600;
+}
+
+/* 搜索框 */
+.search-box {
+    margin-bottom: 25px;
+}
+
+#searchInput {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#searchInput:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 0 2px rgba(52, 152, 219, 0.1);
+}
+
+/* 播放控制按钮 */
+.player-controls {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 25px;
+}
+
+.control-btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background-color: #3498db;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.control-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.main-btn {
+    background-color: #e74c3c;
+    padding: 12px 30px;
+    font-weight: 600;
+}
+
+.main-btn:hover {
+    background-color: #c0392b;
+}
+
+/* 歌曲信息 */
+.song-info {
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 18px;
+    color: #555;
+}
+
+#currentSong {
+    color: #e74c3c;
+    font-weight: 600;
+}
+
+/* 音乐列表 */
+.music-list h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 18px;
+}
+
+#musicList {
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+    border-top: 1px solid #f0f0f0;
+}
+
+#musicList li {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+}
+
+#musicList li::before {
+    content: "🎶";
+    margin-right: 10px;
+}
+
+#musicList li:hover {
+    background-color: #f8f9fa;
+}
+
+#musicList li.active {
+    background-color: rgba(52, 152, 219, 0.1);
+    color: #3498db;
+    font-weight: 500;
+}
+
+/* 滚动条样式优化 */
+#musicList::-webkit-scrollbar {
+    width: 6px;
+}
+
+#musicList::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 3px;
+}
+
+/* 响应式适配 */
+@media (max-width: 600px) {
+    .container {
+        padding: 20px;
+    }
+
+    .player-controls {
+        flex-wrap: wrap;
+    }
+
+    .control-btn {
+        padding: 10px 18px;
+        font-size: 14px;
+    }
+}
