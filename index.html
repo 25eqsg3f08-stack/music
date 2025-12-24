@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>在线音乐库 | GitHub Pages</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🎵 在线音乐库</h1>
+        
+        <!-- 搜索框 -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索歌曲名称...">
+        </div>
+
+        <!-- 播放控制区 -->
+        <div class="player-controls">
+            <button id="prevBtn" class="control-btn">上一曲</button>
+            <button id="playPauseBtn" class="control-btn main-btn">播放</button>
+            <button id="nextBtn" class="control-btn">下一曲</button>
+        </div>
+
+        <!-- 歌曲信息 -->
+        <div class="song-info">
+            <p>当前播放：<span id="currentSong">未选择歌曲</span></p>
+        </div>
+
+        <!-- 音乐列表 -->
+        <div class="music-list">
+            <h3>歌曲库</h3>
+            <ul id="musicList"></ul>
+        </div>
+    </div>
+
+    <!-- 音频播放器（隐藏原生控件） -->
+    <audio id="audioPlayer" controls style="display: none;"></audio>
+
+    <!-- 脚本加载 -->
+    <script src="./js/main.js"></script>
+    <script src="./js/offlinecache.js"></script>
+</body>
+</html>
