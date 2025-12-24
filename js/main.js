@@ -1,5 +1,5 @@
 // 全局变量
-const MUSIC_REPO_URL = "https://25eqsg3f08-stack.github.io/private-music-repo/"; // 音乐库GitHub Pages地址
+const MUSIC_REPO_URL = "https://github.com/25eqsg3f08-stack/private-music-repo"; // 音乐库GitHub Pages地址
 let musicList = []; // 所有歌曲列表
 let filteredList = []; // 搜索过滤后的列表
 let currentIndex = -1; // 当前播放索引
