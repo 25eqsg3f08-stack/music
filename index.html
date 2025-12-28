@@ -16,7 +16,9 @@
         </div>
         <div class="controls">
             <button id="prev-btn">上一曲</button>
+            <button id="backward-btn">后退10秒</button>
             <button id="play-pause-btn">播放</button>
+            <button id="forward-btn">前进10秒</button>
             <button id="next-btn">下一曲</button>
         </div>
         <div class="status" id="status">在线状态，正在获取音乐列表...</div>
@@ -24,7 +26,6 @@
 
     <script src="script.js"></script>
     <script>
-        // 注册Service Worker
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', async () => {
                 try {
