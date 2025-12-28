@@ -3,42 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>在线音乐库 | GitHub Pages</title>
-    <link rel="stylesheet" href="./css/style.css">
+    <title>离线音乐播放器</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>🎵 在线音乐库</h1>
-        
-        <!-- 搜索框 -->
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="搜索歌曲名称...">
+    <div class="player-container">
+        <h1 id="song-title">加载中...</h1>
+        <div class="progress-container">
+            <span id="current-time">00:00</span>
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <span id="total-time">00:00</span>
         </div>
-
-        <!-- 播放控制区 -->
-        <div class="player-controls">
-            <button id="prevBtn" class="control-btn">上一曲</button>
-            <button id="playPauseBtn" class="control-btn main-btn">播放</button>
-            <button id="nextBtn" class="control-btn">下一曲</button>
+        <div class="controls">
+            <button id="prev-btn">上一曲</button>
+            <button id="play-pause-btn">播放</button>
+            <button id="next-btn">下一曲</button>
         </div>
-
-        <!-- 歌曲信息 -->
-        <div class="song-info">
-            <p>当前播放：<span id="currentSong">未选择歌曲</span></p>
-        </div>
-
-        <!-- 音乐列表 -->
-        <div class="music-list">
-            <h3>歌曲库</h3>
-            <ul id="musicList"></ul>
-        </div>
+        <div class="status" id="status">在线状态，正在获取音乐列表...</div>
     </div>
 
-    <!-- 音频播放器（隐藏原生控件） -->
-    <audio id="audioPlayer" controls style="display: none;"></audio>
-
-    <!-- 脚本加载 -->
-    <script src="./js/main.js"></script>
-    <script src="./js/offlinecache.js"></script>
+    <script src="script.js"></script>
+    <script>
+        // 注册Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', async () => {
+                try {
+                    await navigator.serviceWorker.register('./sw.js');
+                    console.log('Service Worker 注册成功');
+                } catch (err) {
+                    console.error('Service Worker 注册失败:', err);
+                }
+            });
+        }
+    </script>
 </body>
 </html>
