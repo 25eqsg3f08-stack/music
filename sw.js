@@ -6,7 +6,7 @@ const CACHE_CONFIG = {
         MAX_SIZE: 1024 * 1024 * 1024 * 1024 // 1TB 缓存上限
     },
     AUDIO: {
-        NAME: 'music-audio-v2',
+        NAME: 'music-audio-v2.2',
         EXPIRE_DAYS: 180,
         CLEANUP_INTERVAL: 24 * 60 * 60 * 1000 // 24小时检查一次过期缓存
     }
