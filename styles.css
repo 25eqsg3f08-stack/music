@@ -48,17 +48,18 @@ body {
 .controls {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 8px;
     margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 8px 12px;
     border: none;
     border-radius: 5px;
     background-color: #2196F3;
     color: #fff;
-    font-size: 1rem;
+    font-size: 0.9rem;
     cursor: pointer;
     transition: background-color 0.2s;
 }
@@ -75,22 +76,4 @@ button:disabled {
 .status {
     font-size: 0.9rem;
     color: #666;
-/* 仅修改 controls 类的样式，其余不变 */
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 8px; /* 缩小按钮间距，避免换行 */
-    margin-bottom: 20px;
-    flex-wrap: wrap; /* 移动端自动换行 */
-}
-
-button {
-    padding: 8px 12px; /* 缩小按钮内边距 */
-    border: none;
-    border-radius: 5px;
-    background-color: #2196F3;
-    color: #fff;
-    font-size: 0.9rem; /* 缩小字体 */
-    cursor: pointer;
-    transition: background-color 0.2s;
 }
