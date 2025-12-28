@@ -2,9 +2,38 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 关键：移动端视口适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
     <title>离线音乐播放器</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 内嵌响应式媒体查询，增强适配 */
+        @media (max-width: 480px) {
+            .player-container {
+                padding: 20px 15px;
+                margin: 10px;
+            }
+            #song-title {
+                font-size: 1.2rem;
+            }
+            .controls button {
+                padding: 10px 15px;
+                font-size: 1rem;
+                flex: 1; /* 移动端按钮平分宽度 */
+                min-width: 60px;
+            }
+        }
+        @media (min-width: 768px) {
+            .player-container {
+                max-width: 500px;
+                padding: 40px;
+            }
+            .controls {
+                gap: 15px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="player-container">
